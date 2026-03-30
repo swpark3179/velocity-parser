@@ -1,0 +1,4 @@
+{
+  "action": "extract",
+  "template": "Hello $user, welcome to $company!"
+}

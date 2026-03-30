@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.velocityparser'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'lib', include: ['*.jar'])
+
+    testImplementation fileTree(dir: 'lib', include: ['*.jar'])
+    // No external fetching, everything runs via the jar tree.
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.register('copyDependencies', Copy) {
+    from configurations.runtimeClasspath
+    from configurations.testRuntimeClasspath
+    into 'lib'
+}
+
+tasks.register('fatJar', Jar) {
+    archiveClassifier = 'all'
+    manifest {
+        attributes 'Main-Class': 'com.velocityparser.cli.VelocityCliFacade'
+    }
+    from sourceSets.main.output
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

@@ -1,0 +1,8 @@
+{
+  "action": "simulate",
+  "template": "Hello $user, welcome to #if($isVIP) VIP #else Standard #end lounge!",
+  "variables": {
+      "user": "Alice",
+      "isVIP": true
+  }
+}

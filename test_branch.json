@@ -1,0 +1,4 @@
+{
+  "action": "branch",
+  "template": "Hello! #if($cond1) One #end #if($cond2) Two #end"
+}

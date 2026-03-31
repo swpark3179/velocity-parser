@@ -109,10 +109,10 @@ public class VelocityBranchSimulator {
         int n = conditions.size();
         int total = 1 << n; // 2^n
         List<BranchResult> results = new ArrayList<>(total);
+        VelocityContext ctx = new VelocityContext();
 
         for (int mask = 0; mask < total; mask++) {
             List<ConditionState> states = new ArrayList<>(n);
-            VelocityContext ctx = new VelocityContext();
 
             for (int i = 0; i < n; i++) {
                 boolean value = ((mask >> i) & 1) == 1;
